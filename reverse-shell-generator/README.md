@@ -50,7 +50,7 @@ Since this application uses Fyne for the GUI, it requires a C Compiler for GPU i
 
 ### 2. Clone & Initialize
 ```bash
-git clone https://github.com/YOUR_USERNAME/go-revshell.git
+git clone https://github.com/soyunomas/go-revshell.git
 cd go-revshell
 go mod tidy
 ```
