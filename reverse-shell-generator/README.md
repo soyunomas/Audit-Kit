@@ -1,133 +1,118 @@
 # 🐚 Go Reverse Shell Generator
 
 ![Go Version](https://img.shields.io/badge/Go-1.20%2B-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+![Fyne](https://img.shields.io/badge/GUI-Fyne-orange?style=for-the-badge&logo=codeigniter&logoColor=white)
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows%20%7C%20macOS-gray?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Stable-green?style=for-the-badge)
 
-A powerful, standalone desktop application for generating reverse shell payloads. Rewritten in **Go (Golang)** using the **Fyne** toolkit, this tool is designed for penetration testers, Red Teamers, and CTF players who need a reliable, offline payload generator.
+## 📄 Description
 
-It serves as a compiled, portable alternative to online tools like [revshells.com](https://revshells.com), with zero runtime dependencies (no Python required on the host).
+**Go Reverse Shell Generator** is a powerful, standalone desktop application designed for generating reverse shell payloads offline. Rewritten entirely in **Go (Golang)** using the **Fyne** toolkit, this tool is tailored for Penetration Testers, Red Teamers, and CTF players who require a reliable payload generator without internet access.
 
----
+It serves as a compiled, portable, and secure alternative to online tools like [revshells.com](https://revshells.com), offering zero runtime dependencies (no Python or interpreters required on the host machine).
 
 ![App Screenshot](screenshot.png)
-*(Save a screenshot of your app as screenshot.png)*
 
----
-
-## ✨ Key Features
-
-| Feature | Description |
-|---------|-------------|
-| 🚀 **Portable Binary** | Compiles to a single executable (`.exe` or binary). Carry it on a USB; runs instantly. |
-| 🌓 **Dark/Light Mode** | Includes a toggle button to switch themes. Defaults to Dark Mode for late-night hacking. |
-| 📚 **Smart Metadata** | **New:** Integrated help panel showing **OPSEC warnings**, requirements, and usage tips for each payload. |
-| ⚡ **Real-Time Gen** | Payloads and Listeners update instantly as you type the IP/Port. |
-| 🔐 **Encodings** | Bypass WAFs with **Base64**, **URL**, and **Double URL** encoding options. |
-| 📋 **One-Click Copy** | Dedicated buttons for copying the `nc` listener and the payload payload to clipboard. |
-| 🛡️ **Cross-Platform** | Logic separated into OS-specific files to ensure smooth compilation on any system. |
-
----
-
-## 🎯 Supported Payloads Library
-
-The tool includes a curated list of modern and classic vectors:
+## ✨ Features
 
 ### 🐧 Linux / Unix / Web
-*   **Bash:** Classic `-i`, generic TCP, UDP, file descriptor variants (196, 5).
-*   **Netcat:** `mkfifo`, `-e`, `-c`, `ncat` SSL.
-*   **Web Shells:** PHP (PentestMonkey, `system`, `exec`), JSP, ASPX.
-*   **Scripting:** Python (2/3), Perl, Ruby, NodeJS, Lua.
-*   **Compiled/Misc:** Golang, Socat (TTY), OpenSSL, Awk, Telnet.
+- **Bash:** Classic `-i`, generic TCP, UDP, and file descriptor variants (196, 5).
+- **Netcat:** Support for `mkfifo`, `-e`, `-c`, and `ncat` SSL.
+- **Web Shells:** Ready-to-use PHP (PentestMonkey, `system`, `exec`), JSP, and ASPX.
+- **Scripting Languages:** Python (2/3), Perl, Ruby, NodeJS, Lua.
+- **Compiled/Misc:** Golang, Socat (TTY), OpenSSL, Awk, Telnet.
 
 ### 🪟 Windows
-*   **PowerShell:** TCP Stream, Base64 Encoded, IEX (DownloadString), ConPtyShell (Fully Interactive).
-*   **Binaries:** `nc.exe`, `ncat.exe`.
-*   **Living off the Land:** MSBuild, Mshta, Regsvr32.
-*   **C# / .NET:** TCP Client, Process injection.
+- **PowerShell:** TCP Stream, Base64 Encoded payloads, IEX (DownloadString), and ConPtyShell (Fully Interactive).
+- **Binaries:** `nc.exe`, `ncat.exe`.
+- **Living off the Land (LOLBins):** MSBuild, Mshta, Regsvr32.
+- **C# / .NET:** Native TCP Client and Process Injection vectors.
 
----
+## 🛠️ Tech Stack
 
-## 📦 Installation & Build
+- **Language:** Go (Golang) 1.20+
+- **GUI Framework:** Fyne Toolkit
+- **Architecture:** Native Binary (Cross-Platform)
 
-### Prerequisites
-1.  **Go 1.20+**: [Download Go](https://go.dev/dl/)
-2.  **C Compiler (GCC)**: Required by Fyne for GPU interface bindings.
-    *   **Linux (Debian/Ubuntu):** `sudo apt install gcc libgl1-mesa-dev xorg-dev`
+## 🚀 Installation & Build
+
+Since this application uses Fyne for the GUI, it requires a C Compiler for GPU interface bindings.
+
+### 1. Prerequisites
+*   **Go 1.20+**: [Download Go](https://go.dev/dl/)
+*   **C Compiler (GCC)**:
+    *   **Debian/Ubuntu:**
+        ```bash
+        sudo apt install gcc libgl1-mesa-dev xorg-dev
+        ```
     *   **Windows:** Install [TDM-GCC](https://jmeubank.github.io/tdm-gcc/).
+    *   **macOS:** Install Xcode Command Line Tools (`xcode-select --install`).
 
-### 1. Clone & Init
+### 2. Clone & Initialize
 ```bash
 git clone https://github.com/YOUR_USERNAME/go-revshell.git
 cd go-revshell
 go mod tidy
 ```
 
-### 2. Build for Linux/macOS
+### 3. Build
+
+**For Linux / macOS:**
 ```bash
 go build -o revshell-gen .
 ```
 
-### 3. Build for Windows
-To build a Windows `.exe` that hides the console window on startup:
+**For Windows:**
+To build a `.exe` that hides the console window on startup:
 ```bash
 go build -ldflags -H=windowsgui -o revshell-gen.exe .
 ```
 
----
-
 ## 💻 Usage
 
-1.  **Launch:** Run the compiled binary.
-2.  **Config:**
-    *   **LHOST:** Enter your attacking IP (VPN/Tun0).
-    *   **LPORT:** Enter the listening port.
+1.  **Launch:** Run the compiled binary (`./revshell-gen` or `revshell-gen.exe`).
+2.  **Configuration:**
+    *   **LHOST:** Input your attacking IP (VPN, Tun0, or local IP).
+    *   **LPORT:** Input the listening port.
 3.  **Selection:**
-    *   Choose Target OS (Linux/Windows).
-    *   Select the Payload strategy.
-    *   *Check the "Payload Details" panel for OPSEC warnings.*
-4.  **Encode (Optional):** Select Base64 if you are injecting into a filtered input.
+    *   Choose the Target OS (Linux/Windows).
+    *   Select the Payload strategy from the dropdown.
+    *   *Tip:* Check the **"Payload Details"** panel for OPSEC warnings and stability info.
+4.  **Encoding (Optional):** Toggle Base64 if you are injecting into a filtered input field.
 5.  **Execute:**
-    *   Copy & Run the **Listener**.
-    *   Copy & Inject the **Payload**.
-
----
+    *   Copy & Run the **Listener** command on your machine.
+    *   Copy & Inject the **Payload** into the target.
 
 ## 📁 Project Structure
 
-The project is structured to allow cross-compilation without OS-tag conflicts:
+The project is structured to separate GUI logic from payload data, allowing for easy expansion without conflicts.
 
 ```text
 go-revshell/
 ├── main.go             # GUI Logic, Event Handling, Encoding
-├── metadata.go         # Help text, Tips, and OPSEC info database
+├── metadata.go         # Help text, OPSEC warnings, and Tips database
 ├── payloads_lin.go     # Map of Linux/Unix payloads
 ├── payloads_win.go     # Map of Windows payloads
 ├── go.mod              # Go module definition
 └── README.md           # Documentation
 ```
 
----
-
 ## 🤝 Contributing
 
-Contributions are welcome! To add a new shell:
+Contributions are welcome! If you want to add a new shell technique:
 
-1.  **Add the Code:** Open `payloads_lin.go` or `payloads_win.go` and add the string to the map.
-2.  **Add the Help:** Open `metadata.go` and add the description, stability info, and tips.
-3.  **Pull Request:** Submit your changes!
+1.  **Add the Code:** Open `payloads_lin.go` or `payloads_win.go` and add the raw string to the map.
+2.  **Add the Metadata:** Open `metadata.go` and add the description, stability rating, and usage tips.
+3.  **Submit:** Create a Pull Request.
 
-### Example (metadata.go):
+**Example entry in `metadata.go`:**
 ```go
 "MyNewShell": {
-    Description: "Uses a specific binary...",
-    OpSec:       "🟢 Stealthy",
-    Consejo:     "Use port 443 to blend in.",
+    Description: "Uses a specific binary found in legacy systems.",
+    OpSec:       "🟢 Stealthy - Low detection rate",
+    Consejo:     "Use port 443 to blend in with HTTPS traffic.",
 },
 ```
-
----
 
 ## ⚠️ Legal Disclaimer
 
@@ -139,8 +124,6 @@ THIS SOFTWARE IS PROVIDED FOR EDUCATIONAL USE AND AUTHORIZED SECURITY ASSESSMENT
 3. Misuse of this software violates local and international laws.
 ```
 
----
+## 📜 License
 
-## 📄 License
-
-Distributed under the **MIT License**.
+Distributed under the **MIT License**. See `LICENSE` for more information.
